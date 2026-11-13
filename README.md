@@ -1,10 +1,10 @@
-# 🦇 VampySec — Herramientas Online Gratuitas
+# ❤️‍🔥 Extraño a mi ex — Herramientas Online Gratuitas
 
-Directorio de herramientas online **100% gratuitas** de ciberseguridad ética, para la academia VampySec.
+Directorio de herramientas online **100% gratuitas** de ciberseguridad ética, para la academia.
 
 ## Qué hay aquí
 
-- **47 herramientas** en 6 categorías:
+- **48 herramientas** en 6 categorías:
   - 🔍 Reconocimiento y OSINT
   - 🌐 Escaneo Web
   - 📡 Red y DNS
@@ -25,4 +25,4 @@ Activa GitHub Pages en este repo (Settings → Pages → Branch: main) y la pág
 
 Solo para fines educativos y de investigación, en **entornos controlados y con autorización expresa**. Nunca uses estas herramientas contra sistemas, cuentas o personas sin permiso.
 
-— VampySec
+— Extraño a mi ex
