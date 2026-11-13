@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VampySec — Herramientas online gratuitas de ciberseguridad ética: reconocimiento, escaneo web, análisis de malware y aprendizaje. Solo para fines educativos.">
+    <title>VampySec | Herramientas Online Gratuitas</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='10' y='80' font-size='80'%3E%F0%9F%A6%87%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #7b2cbf;
+            --accent: #ff00cc;
+            --violet: #9d4edd;
+            --dark: #0a0a0a;
+            --card: #12121a;
+            --card2: rgba(20, 20, 35, 0.6);
+            --border: #2a1a4a;
+            --text: #e0e0e0;
+            --muted: #a0a0c0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 55%, #0a0a0a 100%);
+            color: var(--text);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* ---------- NAVBAR ---------- */
+        .navbar {
+            background: rgba(10, 10, 20, 0.97);
+            backdrop-filter: blur(16px);
+            padding: 16px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid var(--primary);
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.9rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #ff00cc, #9d4edd);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .nav-note {
+            color: var(--muted);
+            font-size: 0.9rem;
+            text-align: right;
+        }
+        .nav-note b { color: #d86eff; }
+
+        /* ---------- HERO ---------- */
+        .hero {
+            text-align: center;
+            padding: 60px 6% 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .hero .bat { font-size: 3.2rem; display: block; margin-bottom: 8px; }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.15;
+            background: linear-gradient(90deg, #ffffff, #d86eff 55%, #ff00cc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            color: var(--muted);
+            font-size: 1.1rem;
+            max-width: 760px;
+            margin: 16px auto 0;
+        }
+
+        /* ---------- STATS ---------- */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin: 30px auto 0;
+            max-width: 900px;
+        }
+
+        .stat {
+            background: var(--card2);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 14px 22px;
+            min-width: 140px;
+        }
+        .stat b {
+            display: block;
+            font-size: 1.7rem;
+            color: #fff;
+            line-height: 1.1;
+        }
+        .stat span { color: var(--muted); font-size: 0.88rem; }
+        .stat.free b { color: #4ade80; }
+
+        /* ---------- SEARCH ---------- */
+        .search-wrap {
+            max-width: 640px;
+            margin: 34px auto 0;
+            position: relative;
+        }
+        .search-wrap i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--violet);
+            font-size: 1.1rem;
+        }
+        #search {
+            width: 100%;
+            padding: 16px 20px 16px 52px;
+            border-radius: 50px;
+            border: 2px solid var(--primary);
+            background: rgba(18, 18, 26, 0.9);
+            color: #fff;
+            font-size: 1.05rem;
+            outline: none;
+            transition: border-color .3s, box-shadow .3s;
+        }
+        #search:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(255, 0, 204, 0.18);
+        }
+        #search::placeholder { color: #777; }
+
+        /* ---------- TABS ---------- */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding: 34px 6% 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tab-btn {
+            padding: 11px 22px;
+            border-radius: 50px;
+            background: rgba(123, 44, 191, 0.15);
+            border: 1px solid rgba(123, 44, 191, 0.4);
+            color: #fff;
+            cursor: pointer;
+            transition: all .3s ease;
+            font-weight: 600;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+        .tab-btn:hover, .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(155, 0, 204, 0.3);
+            border-color: var(--accent);
+        }
+        .tab-btn .count {
+            opacity: 0.85;
+            font-size: 0.82rem;
+            margin-left: 4px;
+        }
+
+        /* ---------- CONTENT ---------- */
+        .main-content {
+            padding: 34px 6% 20px;
+            max-width: 1480px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            color: #d86eff;
+            font-size: 1.7rem;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-sub {
+            color: var(--muted);
+            margin-bottom: 26px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 22px;
+        }
+
+        .tool-card {
+            background: var(--card2);
+            border: 1px solid #3a2a5a;
+            border-radius: 18px;
+            padding: 24px;
+            transition: all .35s ease;
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn .45s ease;
+        }
+        .tool-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(255, 0, 204, 0.15);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tool-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .tool-name {
+            font-size: 1.22rem;
+            color: #fff;
+            line-height: 1.3;
+        }
+        .tool-name i { color: var(--violet); margin-right: 8px; }
+
+        .badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 50px;
+            white-space: nowrap;
+            letter-spacing: .4px;
+        }
+        .badge.free { background: rgba(74, 222, 128, 0.15); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.4); }
+        .badge.account { background: rgba(157, 78, 221, 0.18); color: #d86eff; border: 1px solid rgba(157, 78, 221, 0.5); }
+
+        .tool-desc {
+            flex-grow: 1;
+            color: var(--muted);
+            font-size: 0.96rem;
+            margin-bottom: 18px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #fff;
+            border: none;
+            padding: 11px 26px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            transition: all .3s ease;
+            margin-top: auto;
+            align-self: flex-start;
+        }
+        .btn:hover { transform: scale(1.06); box-shadow: 0 0 20px rgba(255, 0, 204, 0.6); }
+
+        .no-results {
+            text-align: center;
+            color: var(--muted);
+            padding: 50px 20px;
+            font-size: 1.1rem;
+            display: none;
+        }
+        .no-results span { font-size: 2.4rem; display: block; margin-bottom: 10px; }
+
+        /* ---------- ETHICS BANNER ---------- */
+        .ethics {
+            max-width: 1480px;
+            margin: 30px auto 0;
+            padding: 0 6%;
+        }
+        .ethics-box {
+            background: linear-gradient(135deg, rgba(123, 44, 191, 0.25), rgba(255, 0, 204, 0.12));
+            border: 1px solid var(--primary);
+            border-radius: 20px;
+            padding: 26px 30px;
+            display: flex;
+            gap: 18px;
+            align-items: flex-start;
+        }
+        .ethics-box i { font-size: 1.8rem; color: #ff00cc; margin-top: 4px; }
+        .ethics-box h3 { color: #fff; margin-bottom: 6px; }
+        .ethics-box p { color: var(--muted); font-size: 0.97rem; }
+
+        footer {
+            text-align: center;
+            padding: 34px 6%;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            margin-top: 50px;
+        }
+        footer b { color: #d86eff; }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; padding: 16px 8%; text-align: center; }
+            .nav-note { text-align: center; }
+            .hero { padding-top: 40px; }
+            .grid { grid-template-columns: 1fr; }
+            .ethics-box { flex-direction: column; gap: 8px; }
+            .stat { min-width: 110px; padding: 12px 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo"><span>🦇</span><span>VAMPYSEC</span></div>
+    <div class="nav-note">Academia de Ciberseguridad y Hacking Ético<br><b>Solo para fines educativos</b></div>
+</div>
+
+<div class="hero">
+    <span class="bat">🦇</span>
+    <h1>Herramientas Online Gratuitas</h1>
+    <p>Todo el arsenal que necesitas para aprender hacking ético, sin instalar nada y sin pagar un peso. Reconocimiento, escaneo web, análisis de malware y práctica real, en un solo lugar.</p>
+
+    <div class="stats">
+        <div class="stat"><b id="stat-tools">46</b><span>Herramientas</span></div>
+        <div class="stat"><b>6</b><span>Categorías</span></div>
+        <div class="stat free"><b>100%</b><span>Gratuitas</span></div>
+        <div class="stat free"><b>$0</b><span>De paga: ninguna</span></div>
+    </div>
+
+    <div class="search-wrap">
+        <i class="fas fa-search"></i>
+        <input type="text" id="search" placeholder="Buscar una herramienta... (ej. nmap, virus, dns, hash)">
+    </div>
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="main-content">
+    <h2 class="section-title" id="section-title"><i class="fas fa-toolbox"></i> Todas las herramientas</h2>
+    <p class="section-sub" id="section-sub">Explora por categoría o usa el buscador. Las marcadas con "Cuenta gratis" solo piden crear una cuenta, sin pagar nada.</p>
+    <div class="grid" id="grid"></div>
+    <div class="no-results" id="no-results"><span>🔍</span>No encontré ninguna herramienta con ese nombre.<br>Prueba con otra palabra.</div>
+</div>
+
+<div class="ethics">
+    <div class="ethics-box">
+        <i class="fas fa-shield-halved"></i>
+        <div>
+            <h3>Regla de oro: solo uso ético</h3>
+            <p>Estas herramientas son para aprender y practicar en <b>entornos controlados y con autorización expresa</b>. Nunca las uses contra sistemas, cuentas o personas sin permiso. El que sabe, protege: el hacking ético se practica, no se abusa.</p>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <b>VampySec</b> — Herramientas Online Gratuitas • Solo para fines educativos y de investigación<br>
+    Hecho para la academia VampySec • Si una herramienta te pide pago, no es de aquí
+</footer>
+
+<script>
+// ==================== DATOS ====================
+// login: true = pide crear cuenta gratis (sin pagar). login: false = entra directo, gratis.
+const tools = [
+    // ---- RECONOCIMIENTO Y OSINT ----
+    { name: "Shodan", desc: "El buscador de internet: encuentra cámaras, servidores y dispositivos expuestos.", url: "https://www.shodan.io/", icon: "fa-radar", cat: "recon", login: true },
+    { name: "Censys", desc: "Busca hosts, certificados y servicios expuestos en todo internet.", url: "https://search.censys.io/", icon: "fa-magnifying-glass", cat: "recon", login: true },
+    { name: "crt.sh", desc: "Certificados SSL públicos de cualquier dominio: descubre sus subdominios.", url: "https://crt.sh/", icon: "fa-certificate", cat: "recon", login: false },
+    { name: "DNSDumpster", desc: "Mapa visual de subdominios, registros DNS y servidores de un dominio.", url: "https://dnsdumpster.com/", icon: "fa-sitemap", cat: "recon", login: false },
+    { name: "ViewDNS.info", desc: "Paquete completo: WHOIS, DNS, puertos, historial y más en un solo sitio.", url: "https://viewdns.info/", icon: "fa-globe", cat: "recon", login: false },
+    { name: "OSINT Framework", desc: "El directorio maestro de recursos OSINT, organizado por tipo de objetivo.", url: "https://osintframework.com/", icon: "fa-diagram-project", cat: "recon", login: false },
+    { name: "Epieos", desc: "Busca correos y teléfonos en la red: redes sociales, filtraciones y más.", url: "https://epieos.com/", icon: "fa-envelope-open-text", cat: "recon", login: false },
+    { name: "WhatsMyName", desc: "Verifica si un nombre de usuario existe en cientos de sitios y redes.", url: "https://whatsmyname.app/", icon: "fa-user-magnifying-glass", cat: "recon", login: false },
+
+    // ---- ESCANEO WEB ----
+    { name: "SSL Labs", desc: "El análisis más completo de la configuración SSL/TLS de un sitio web.", url: "https://www.ssllabs.com/ssltest/", icon: "fa-lock", cat: "web", login: false },
+    { name: "SecurityHeaders", desc: "Revisa las cabeceras de seguridad de un sitio y te dice qué le falta.", url: "https://securityheaders.com/", icon: "fa-shield-halved", cat: "web", login: false },
+    { name: "Mozilla Observatory", desc: "Puntaje de seguridad web: cabeceras, TLS, cookies y buenas prácticas.", url: "https://observatory.mozilla.org/", icon: "fa-gauge-high", cat: "web", login: false },
+    { name: "Web Vulnerability Scanner", desc: "Escáner completo de vulnerabilidades web, con reporte detallado.", url: "https://pentest-tools.com/website-vulnerability-scanning/website-scanner", icon: "fa-spider", cat: "web", login: false },
+    { name: "SQL Injection Tester", desc: "Pruebas automáticas de SQL Injection contra un sitio web.", url: "https://pentest-tools.com/website-vulnerability-scanning/sql-injection-scanner-online", icon: "fa-database", cat: "web", login: false },
+    { name: "Sucuri SiteCheck", desc: "Revisa si un sitio tiene malware, está en listas negras o fue hackeado.", url: "https://sitecheck.sucuri.net/", icon: "fa-bug-slash", cat: "web", login: false },
+    { name: "ImmuniWeb", desc: "Escaneo de seguridad web y cumplimiento, con reporte profesional.", url: "https://www.immuniweb.com/websec/", icon: "fa-file-shield", cat: "web", login: false },
+    { name: "Hardenize", desc: "Analiza la configuración de seguridad de un dominio: DNS, correo y web.", url: "https://www.hardenize.com/", icon: "fa-screwdriver-wrench", cat: "web", login: false },
+
+    // ---- RED Y DNS ----
+    { name: "Nmap Online", desc: "Escáner de puertos y servicios estilo Nmap, directo desde el navegador.", url: "https://pentest-tools.com/network-vulnerability-scanning/port-scanner-online-nmap", icon: "fa-network-wired", cat: "red", login: false },
+    { name: "MXToolbox", desc: "Diagnóstico de DNS, MX, blacklist y salud del correo de un dominio.", url: "https://mxtoolbox.com/", icon: "fa-toolbox", cat: "red", login: false },
+    { name: "DNSChecker.org", desc: "Ve cómo se propaga el DNS de un dominio en servidores de todo el mundo.", url: "https://dnschecker.org/", icon: "fa-earth-americas", cat: "red", login: false },
+    { name: "HackerTarget", desc: "Nmap, ping, traceroute, WHOIS y más herramientas de red online.", url: "https://hackertarget.com/", icon: "fa-terminal", cat: "red", login: false },
+    { name: "AbuseIPDB", desc: "Revisa si una IP ha sido reportada por abuso, spam o ataques.", url: "https://www.abuseipdb.com/", icon: "fa-triangle-exclamation", cat: "red", login: false },
+    { name: "GreyNoise", desc: "Distingue el ruido de internet: qué IPs escanean por todas partes.", url: "https://viz.greynoise.io/", icon: "fa-wave-square", cat: "red", login: true },
+    { name: "IPVoid", desc: "Reputación de una IP: listas negras, geolocalización y reportes.", url: "https://www.ipvoid.com/", icon: "fa-location-dot", cat: "red", login: false },
+    { name: "DNSLeakTest", desc: "Comprueba si tu VPN o tu conexión está filtrando consultas DNS.", url: "https://www.dnsleaktest.com/", icon: "fa-eye-slash", cat: "red", login: false },
+
+    // ---- MALWARE Y URLS ----
+    { name: "VirusTotal", desc: "Analiza archivos, URLs y hashes con más de 70 antivirus a la vez.", url: "https://www.virustotal.com/gui/home/upload", icon: "fa-virus", cat: "malware", login: false },
+    { name: "URLScan.io", desc: "Análisis detallado de una URL: qué carga, a dónde conecta y si es phishing.", url: "https://urlscan.io/", icon: "fa-link", cat: "malware", login: false },
+    { name: "Hybrid Analysis", desc: "Sandbox gratuito: ejecuta un archivo sospechoso y ve qué hace.", url: "https://hybrid-analysis.com/", icon: "fa-flask-vial", cat: "malware", login: false },
+    { name: "Any.Run", desc: "Sandbox interactivo: corre malware en vivo y observa su comportamiento.", url: "https://any.run/", icon: "fa-play", cat: "malware", login: true },
+    { name: "MalwareBazaar", desc: "Base de datos pública de muestras de malware, con hashes y reportes.", url: "https://bazaar.abuse.ch/", icon: "fa-biohazard", cat: "malware", login: false },
+    { name: "URLhaus", desc: "Lista de URLs maliciosas: verifica si un enlace distribuye malware.", url: "https://urlhaus.abuse.ch/", icon: "fa-skull-crossbones", cat: "malware", login: false },
+    { name: "AlienVault OTX", desc: "Inteligencia de amenazas abierta: IPs, dominios y hashes maliciosos.", url: "https://otx.alienvault.com/", icon: "fa-brain", cat: "malware", login: true },
+    { name: "Exploit-DB", desc: "La base de datos pública de exploits y vulnerabilidades más conocida.", url: "https://www.exploit-db.com/", icon: "fa-bomb", cat: "malware", login: false },
+
+    // ---- DATOS, HASHES Y CONTRASEÑAS ----
+    { name: "Have I Been Pwned", desc: "¿Tu correo apareció en alguna filtración de datos? Revísalo aquí.", url: "https://haveibeenpwned.com/", icon: "fa-eye", cat: "datos", login: false },
+    { name: "CrackStation", desc: "Busca hashes en su base de datos gigante y descubre la contraseña.", url: "https://crackstation.net/", icon: "fa-key", cat: "datos", login: false },
+    { name: "CyberChef", desc: "La navaja suiza: codifica, decodifica, hashea y analiza datos de todo tipo.", url: "https://gchq.github.io/CyberChef/", icon: "fa-wand-magic-sparkles", cat: "datos", login: false },
+    { name: "JWT.io", desc: "Decodifica y verifica tokens JWT al instante, sin instalar nada.", url: "https://jwt.io/", icon: "fa-fingerprint", cat: "datos", login: false },
+    { name: "Mozilla Monitor", desc: "Te avisa si tu correo aparece en filtraciones nuevas, gratis.", url: "https://monitor.mozilla.org/", icon: "fa-bell", cat: "datos", login: true },
+    { name: "IntelX", desc: "Buscador de filtraciones, correos, dominios y datos expuestos en la red.", url: "https://intelx.io/", icon: "fa-database", cat: "datos", login: true },
+
+    // ---- APRENDIZAJE Y CTF ----
+    { name: "TryHackMe", desc: "Aprendizaje práctico guiado, el mejor lugar para empezar desde cero.", url: "https://tryhackme.com/", icon: "fa-graduation-cap", cat: "aprender", login: true },
+    { name: "Hack The Box", desc: "Máquinas y retos de nivel real para poner a prueba lo que sabes.", url: "https://www.hackthebox.com/", icon: "fa-cube", cat: "aprender", login: true },
+    { name: "PortSwigger Academy", desc: "Laboratorios gratuitos de seguridad web: SQLi, XSS, CSRF y más.", url: "https://portswigger.net/web-security", icon: "fa-laptop-code", cat: "aprender", login: false },
+    { name: "PicoCTF", desc: "La competencia CTF para aprender jugando, con retos de todos los niveles.", url: "https://picoctf.org/", icon: "fa-flag", cat: "aprender", login: false },
+    { name: "OverTheWire", desc: "Wargames clásicos para practicar Linux, redes y explotación paso a paso.", url: "https://overthewire.org/wargames/", icon: "fa-gamepad", cat: "aprender", login: false },
+    { name: "Root Me", desc: "Cientos de retos de hacking y CTF, con comunidad activa en español.", url: "https://www.root-me.org/", icon: "fa-trophy", cat: "aprender", login: true },
+    { name: "CryptoHack", desc: "Aprende criptografía resolviendo retos, de lo básico a lo avanzado.", url: "https://cryptohack.org/", icon: "fa-lock-open", cat: "aprender", login: false },
+    { name: "pwn.college", desc: "Curso universitario gratuito de explotación binaria y pwn, con práctica.", url: "https://pwn.college/", icon: "fa-school", cat: "aprender", login: false }
+];
+
+const categories = [
+    { id: "all", label: "Todas", icon: "fa-toolbox", title: "Todas las herramientas", sub: "Explora por categoría o usa el buscador. Las marcadas con \"Cuenta gratis\" solo piden crear una cuenta, sin pagar nada." },
+    { id: "recon", label: "Recon y OSINT", icon: "fa-magnifying-glass", title: "Reconocimiento y OSINT", sub: "Conoce a tu objetivo antes de tocarlo: dominios, usuarios, certificados y más." },
+    { id: "web", label: "Escaneo Web", icon: "fa-globe", title: "Escaneo Web", sub: "Encuentra las fallas de un sitio web: SSL, cabeceras, SQLi y vulnerabilidades." },
+    { id: "red", label: "Red y DNS", icon: "fa-network-wired", title: "Red y DNS", sub: "Puertos, DNS, IPs y reputación: entiende la red antes de analizarla." },
+    { id: "malware", label: "Malware y URLs", icon: "fa-virus", title: "Análisis de Malware y URLs", sub: "Ese archivo o enlace huele mal: analízalo en un sandbox antes de abrirlo." },
+    { id: "datos", label: "Datos y Hashes", icon: "fa-key", title: "Datos, Hashes y Contraseñas", sub: "Filtraciones, hashes y codificación: verifica y protege la información." },
+    { id: "aprender", label: "Aprender y CTF", icon: "fa-graduation-cap", title: "Aprendizaje y CTF", sub: "La teoría se queda corta: aquí practicas de verdad, con retos y máquinas." }
+];
+
+let activeCat = "all";
+
+// ==================== RENDER ====================
+function renderTabs() {
+    document.getElementById("tabs").innerHTML = categories.map(c => {
+        const n = c.id === "all" ? tools.length : tools.filter(t => t.cat === c.id).length;
+        return `<button class="tab-btn ${c.id === activeCat ? "active" : ""}" data-cat="${c.id}">
+            <i class="fas ${c.icon}"></i> ${c.label} <span class="count">(${n})</span>
+        </button>`;
+    }).join("");
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            activeCat = btn.dataset.cat;
+            const cat = categories.find(c => c.id === activeCat);
+            document.getElementById("section-title").innerHTML = `<i class="fas ${cat.icon}"></i> ${cat.title}`;
+            document.getElementById("section-sub").textContent = cat.sub;
+            renderTabs();
+            renderTools();
+        });
+    });
+}
+
+function renderTools() {
+    const q = document.getElementById("search").value.trim().toLowerCase();
+    const list = tools.filter(t =>
+        (activeCat === "all" || t.cat === activeCat) &&
+        (q === "" || (t.name + " " + t.desc).toLowerCase().includes(q))
+    );
+
+    document.getElementById("grid").innerHTML = list.map(item => `
+        <div class="tool-card">
+            <div class="tool-top">
+                <h3 class="tool-name"><i class="fas ${item.icon}"></i>${item.name}</h3>
+                <span class="badge ${item.login ? "account" : "free"}">${item.login ? "Cuenta gratis" : "Gratis"}</span>
+            </div>
+            <p class="tool-desc">${item.desc}</p>
+            <a href="${item.url}" target="_blank" rel="noopener" class="btn">Acceder →</a>
+        </div>
+    `).join("");
+
+    document.getElementById("no-results").style.display = list.length ? "none" : "block";
+    document.getElementById("stat-tools").textContent = list.length === tools.length ? tools.length : list.length;
+}
+
+document.getElementById("search").addEventListener("input", renderTools);
+
+renderTabs();
+renderTools();
+</script>
+</body>
+</html>
