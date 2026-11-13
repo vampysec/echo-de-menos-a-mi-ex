@@ -4,7 +4,7 @@ Directorio de herramientas online **100% gratuitas** de ciberseguridad ética, p
 
 ## Qué hay aquí
 
-- **48 herramientas** en 6 categorías:
+- **47 herramientas** en 6 categorías:
   - 🔍 Reconocimiento y OSINT
   - 🌐 Escaneo Web
   - 📡 Red y DNS
